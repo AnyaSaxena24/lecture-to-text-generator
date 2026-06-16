@@ -25,7 +25,4 @@ services:
     startCommand: cd frontend && npm run start
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: lecture-voice-notes-backend
-          property: url
+        value: https://lecture-voice-notes-backend.onrender.com
