@@ -3,7 +3,7 @@ services:
   - type: web
     name: lecture-voice-notes-backend
     env: docker
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: backend/Dockerfile.render
     dockerContext: backend
     plan: free
     envVars:
