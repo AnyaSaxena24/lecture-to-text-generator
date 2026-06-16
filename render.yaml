@@ -5,7 +5,7 @@ services:
     env: docker
     dockerfilePath: backend/Dockerfile
     dockerContext: backend
-    plan: standard
+    plan: free
     envVars:
       - key: WHISPER_MODEL
         value: small
@@ -20,7 +20,7 @@ services:
   - type: web
     name: lecture-voice-notes-frontend
     env: node
-    plan: starter
+    plan: free
     buildCommand: cd frontend && npm install && npm run build
     startCommand: cd frontend && npm run start
     envVars:
