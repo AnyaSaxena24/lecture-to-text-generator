@@ -8,7 +8,7 @@ services:
     plan: free
     envVars:
       - key: WHISPER_MODEL
-        value: small
+        value: mock
       - key: LLM_PROVIDER
         value: mock
       - key: DATABASE_NAME
