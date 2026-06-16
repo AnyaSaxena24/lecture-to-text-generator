@@ -28,4 +28,4 @@ services:
         fromService:
           type: web
           name: lecture-voice-notes-backend
-          property: host
+          property: url
