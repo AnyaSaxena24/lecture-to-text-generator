@@ -8,9 +8,11 @@ services:
     plan: free
     envVars:
       - key: WHISPER_MODEL
-        value: mock
+        value: gemini
       - key: LLM_PROVIDER
-        value: mock
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false  # Set this in the Render dashboard manually
       - key: DATABASE_NAME
         value: lecture_notes_db
       - key: UPLOAD_DIR

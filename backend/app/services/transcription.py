@@ -89,6 +89,22 @@ async def transcribe_audio(file_path: str) -> list:
         if success and os.path.exists(audio_out):
             work_file = audio_out
             
+    if settings.WHISPER_MODEL == "gemini":
+        logger.info("Using Gemini API for transcription...")
+        try:
+            from app.services.gemini_service import transcribe_audio_with_gemini
+            segments = await transcribe_audio_with_gemini(work_file)
+            # Clean up temporary audio file if created
+            if work_file != file_path and os.path.exists(work_file):
+                os.remove(work_file)
+            return segments
+        except Exception as e:
+            logger.error(f"Gemini transcription failed: {e}")
+            # Clean up temporary audio file if created
+            if work_file != file_path and os.path.exists(work_file):
+                os.remove(work_file)
+            raise
+
     if settings.WHISPER_MODEL == "mock":
         await asyncio.sleep(2)
         # Clean up temporary audio file if created

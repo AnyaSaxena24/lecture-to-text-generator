@@ -198,6 +198,15 @@ async def generate_notes(transcript_text: str) -> dict:
     """
     Generates a dictionary containing 'summary' (str) and 'bullet_notes' (list of str).
     """
+    if settings.LLM_PROVIDER == "gemini":
+        try:
+            from app.services.gemini_service import generate_notes_with_gemini
+            return await generate_notes_with_gemini(transcript_text)
+        except Exception as e:
+            logger.error(f"Gemini notes generation failed: {e}")
+            summary, bullet_notes, _, _ = generate_dynamic_fallback(transcript_text)
+            return {"summary": summary, "bullet_notes": bullet_notes}
+
     if settings.LLM_PROVIDER == "mock":
         summary, bullet_notes, _, _ = generate_dynamic_fallback(transcript_text)
         return {"summary": summary, "bullet_notes": bullet_notes}
@@ -224,6 +233,15 @@ async def generate_flashcards(transcript_text: str) -> list:
     """
     Generates a list of flashcard objects: [{'question': str, 'answer': str}]
     """
+    if settings.LLM_PROVIDER == "gemini":
+        try:
+            from app.services.gemini_service import generate_flashcards_with_gemini
+            return await generate_flashcards_with_gemini(transcript_text)
+        except Exception as e:
+            logger.error(f"Gemini flashcards generation failed: {e}")
+            _, _, flashcards, _ = generate_dynamic_fallback(transcript_text)
+            return flashcards
+
     if settings.LLM_PROVIDER == "mock":
         _, _, flashcards, _ = generate_dynamic_fallback(transcript_text)
         return flashcards
@@ -251,6 +269,15 @@ async def generate_quiz(transcript_text: str) -> list:
     """
     Generates a list of quiz items: [{'question': str, 'options': [...], 'correct_answer': str, 'explanation': str}]
     """
+    if settings.LLM_PROVIDER == "gemini":
+        try:
+            from app.services.gemini_service import generate_quiz_with_gemini
+            return await generate_quiz_with_gemini(transcript_text)
+        except Exception as e:
+            logger.error(f"Gemini quiz generation failed: {e}")
+            _, _, _, quizzes = generate_dynamic_fallback(transcript_text)
+            return quizzes
+
     if settings.LLM_PROVIDER == "mock":
         _, _, _, quizzes = generate_dynamic_fallback(transcript_text)
         return quizzes
@@ -285,7 +312,8 @@ async def generate_lecture_notes(transcript_text: str) -> tuple:
     """
     if settings.LLM_PROVIDER == "mock":
         return generate_dynamic_fallback(transcript_text)
-        
+
+    # For gemini and all other providers, call individual generators
     notes = await generate_notes(transcript_text)
     flashcards = await generate_flashcards(transcript_text)
     quizzes = await generate_quiz(transcript_text)

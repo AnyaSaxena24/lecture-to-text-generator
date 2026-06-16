@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "phi3"
     GEMINI_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
-    WHISPER_MODEL: str = "mock"  # "tiny" | "base" | "mock"
+    WHISPER_MODEL: str = "mock"  # "tiny" | "base" | "gemini" | "mock"
 
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"),
