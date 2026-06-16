@@ -21,3 +21,4 @@ langchain-community
 chromadb
 sentence-transformers
 email-validator
+google-generativeai>=0.8.0
