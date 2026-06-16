@@ -1,0 +1,31 @@
+services:
+  # 1. FastAPI Backend (Docker Web Service)
+  - type: web
+    name: lecture-voice-notes-backend
+    env: docker
+    dockerFilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: standard
+    envVars:
+      - key: WHISPER_MODEL
+        value: small
+      - key: LLM_PROVIDER
+        value: mock
+      - key: DATABASE_NAME
+        value: lecture_notes_db
+      - key: UPLOAD_DIR
+        value: uploads
+
+  # 2. Next.js Frontend (Node Web Service)
+  - type: web
+    name: lecture-voice-notes-frontend
+    env: node
+    plan: starter
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm run start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: lecture-voice-notes-backend
+          property: host
