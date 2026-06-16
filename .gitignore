@@ -34,3 +34,9 @@ uploads/
 # Operating System files
 .DS_Store
 Thumbs.db
+
+# Project reports & presentation templates
+report/
+*.pptx
+*.ppt
+
