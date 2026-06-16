@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
@@ -21,7 +21,7 @@ interface Lecture {
   created_at: string;
 }
 
-export default function Dashboard() {
+function DashboardContent() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -272,5 +272,18 @@ export default function Dashboard() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4">
+        <Loader2 className="h-10 w-10 text-brand-500 animate-spin" />
+        <p className="text-slate-400 text-sm">Loading your dashboard...</p>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   );
 }
