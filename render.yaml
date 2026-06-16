@@ -15,6 +15,8 @@ services:
         value: lecture_notes_db
       - key: UPLOAD_DIR
         value: uploads
+      - key: PORT
+        value: 8000
 
   # 2. Next.js Frontend (Node Web Service)
   - type: web
